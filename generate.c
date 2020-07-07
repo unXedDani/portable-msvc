@@ -11,7 +11,7 @@ SECURITY_ATTRIBUTES default_dir_security_attributes = {
 	sizeof(SECURITY_ATTRIBUTES), 0, true,
 };
 
-char *vcvarallportable =
+char *vcvarsportable =
 "@echo off\r\n"
 "set PATH=%CD%;%PATH%\r\n"
 "set INCLUDE=%CD%\\include\r\n"
@@ -187,13 +187,13 @@ void process_env_path(char *env) {
 	//printf("--\n%s\n", path);
 }
 
-void write_vcvarallportable() {
-	int file_length = strlen(vcvarallportable);
+void write_vcvarsportable() {
+	int file_length = strlen(vcvarsportable);
 
-	HANDLE vc_file = CreateFileA("msvc/vcvarallportable.bat", GENERIC_READ | GENERIC_WRITE, 0, 0, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0);
+	HANDLE vc_file = CreateFileA("msvc/vcvarsportable.bat", GENERIC_READ | GENERIC_WRITE, 0, 0, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0);
 
 	DWORD vc_file_written = 0;
-	BOOL ok = WriteFile(vc_file, vcvarallportable, file_length, &vc_file_written, 0);
+	BOOL ok = WriteFile(vc_file, vcvarsportable, file_length, &vc_file_written, 0);
 	if(ok == false) {
 		printf("%u\n", GetLastError());
 		assert(0);
@@ -208,7 +208,7 @@ void generate() {
 	process_env_path("lib");
 	process_env_path("libpath");
 
-	write_vcvarallportable();
+	write_vcvarsportable();
 }
 
 int main(int argc, char **argv) {
